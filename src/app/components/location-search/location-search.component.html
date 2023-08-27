@@ -24,9 +24,10 @@
       <input
         type="search"
         id="default-search"
-        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-transparent focus:outline-none dark:placeholder-gray-400"
-        placeholder="Start typing..."
+        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:outline-none dark:placeholder-gray-400"
+        placeholder="Search desired location here"
         formControlName="city"
+        autocomplete="off"
       />
     </div>
   </form>
@@ -37,7 +38,7 @@
   >
     <div *ngFor="let city of suggestions">
       <p
-        class="p-3 cursor-pointer hover:bg-[#f9f9f9] hover:text-black text-[#7b7b7b]"
+        class="p-3 cursor-pointer bg-white hover:bg-[#F5FCFF] hover:text-black text-[#7b7b7b]"
         (click)="onSubmit(city)"
       >
         {{ city }}
