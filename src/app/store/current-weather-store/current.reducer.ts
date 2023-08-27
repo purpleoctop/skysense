@@ -1,6 +1,6 @@
-import { State, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { setCurrentWeatherDataSuccess } from './current.actions';
-import { weatherDataResponse } from 'src/app/models/weatherDataResponse';
+import { weatherDataResponse } from '../../models/weatherDataResponse';
 import { AppState } from './current.selector';
 
 export const initialState: AppState = {

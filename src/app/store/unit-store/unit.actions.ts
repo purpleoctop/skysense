@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { tempUnit } from 'src/app/models/temperatureUnits';
+import { tempUnit } from '../../models/temperatureUnits';
 
 export const setTemperatureUnit = createAction(
   '[Temp Unit] Set',

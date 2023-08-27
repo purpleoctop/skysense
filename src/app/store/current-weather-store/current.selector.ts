@@ -1,5 +1,5 @@
 import { createFeatureSelector } from '@ngrx/store';
-import { weatherDataResponse } from 'src/app/models/weatherDataResponse';
+import { weatherDataResponse } from '../../models/weatherDataResponse';
 
 export interface AppState {
   currentWeather: weatherDataResponse;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, catchError, map, switchMap } from 'rxjs';
-import { WeatherService } from 'src/app/services/weather/weather.service';
+import { WeatherService } from '../../services/weather/weather.service';
 import {
   setCurrentWeatherData,
   setCurrentWeatherDataSuccess,
