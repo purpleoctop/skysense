@@ -1,0 +1,18 @@
+<div class="w-screen h-screen p-24 bg-[#DBF3FA]">
+  <div class="w-full h-full p-10 border rounded-lg bg-[#FFFFFFCC]">
+    <p class="text-gray-500 text-center m-4">
+      Welcome to <span class="text-blue-500">Skysense</span> App, your ultimate
+      destination for up-to-date and accurate weather information.
+    </p>
+
+    <div class="flex w-full justify-between items-center">
+      <app-location-search
+      class="flex-1 relative z-1"
+        (onLocationConfirm)="getLocationData($event)"
+      ></app-location-search>
+
+      <app-temp-switcher  class="flex-none"></app-temp-switcher>
+    </div>
+    <app-weather-card [displayCelsius]="displayCelsius" [weatherData]="currentWeather" class="relative z-0"></app-weather-card>
+  </div>
+</div>
