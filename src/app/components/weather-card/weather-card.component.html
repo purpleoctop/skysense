@@ -1,43 +1,56 @@
-<div
-  *ngIf="weatherData.current"
-  class="p-10 mt-32 ml-10 inline-block border border-2 rounded-md border-[#DBF3FA]"
->
-  <div class="mb-8">
-    <span class="text-5xl mr-2 font-semibold">{{
-      weatherData.location.name
-    }}</span>
-    <span class="text-2xl font-medium">{{ weatherData.location.country }}</span>
-  </div>
-  <div class="flex text-2xl align-baseline">
-    <p class="mr-2 font-semibold">{{ weatherData.current.condition.text }}</p>
-    <div *ngIf="displayCelsius; else farenheitR" class="mb-4">
-      <span class="mr-1">{{ weatherData.current.temp_c }} C</span>
-    </div>
-    <ng-template #farenheitR>
-      <div class="mb-4">
-        <span class="mr-1">{{ weatherData.current.temp_f }} F</span>
+<div *ngIf="weatherData.current">
+  <div class="my-10 w-full relative z-0">
+    <div class="flex w-full items-baseline">
+        <span class="text-5xl mr-2 font-semibold">{{
+          weatherData.location.name
+        }}</span>
+        <span class="text-2xl mr-4 font-medium">{{
+          weatherData.location.country
+        }}</span>
+      <div *ngIf="displayCelsius; else farenheitR">
+        <span class="text-2xl font-medium "
+          >{{ weatherData.current.temp_c }} C</span
+        >
       </div>
-    </ng-template>
-  </div>
-  <div class="flex align-baseline text-xl">
-    <p class="mr-2">Feels like</p>
-    <div *ngIf="displayCelsius; else farenheitF">
-      <span class="mr-1">{{ weatherData.current.feelslike_c }} C</span>
+      <ng-template #farenheitR>
+        <span class="text-2xl font-medium"
+          >{{ weatherData.current.temp_f }} F</span
+        >
+      </ng-template>
     </div>
-    <ng-template #farenheitF>
-      <span class="mr-1">{{ weatherData.current.feelslike_f }} F</span>
-    </ng-template>
-  </div>
-  <div class="flex align-baseline text-xl">
-    <p class="mr-2">Humidity</p>
-    <span class="mr-1">{{ weatherData.current.humidity }} %</span>
-  </div>
-  <div class="flex align-baseline text-xl">
-    <p class="mr-2">Visibility</p>
-    <span class="mr-1">{{ weatherData.current.vis_km }} km</span>
-  </div>
-  <div class="flex align-baseline text-xl">
-    <p class="mr-2">Wind Speed</p>
-    <span class="mr-1">{{ weatherData.current.wind_kph }} kph</span>
+
+    <div class="flex items-end">
+      <img
+        class="w-24 h-24 inline block"
+        src="http:{{ weatherData.current.condition.icon }}"
+        alt=""
+      />
+      <p class="ml-4 text-xl font-semibold flex-none self-center">
+        {{ weatherData.current.condition.text }}
+      </p>
+    </div>
+    <div class="mx-4 flex flex-col h-44 items-between">
+      <div class="flex flex-1 align-baseline text-xl">
+        <p class="mr-2">Feels like</p>
+        <div *ngIf="displayCelsius; else farenheitF">
+          <span class="mr-1">{{ weatherData.current.feelslike_c }} C</span>
+        </div>
+        <ng-template #farenheitF>
+          <span class="mr-1">{{ weatherData.current.feelslike_f }} F</span>
+        </ng-template>
+      </div>
+      <div class="flex flex-1 align-baseline text-xl">
+        <p class="mr-2">Humidity</p>
+        <span class="mr-1">{{ weatherData.current.humidity }} %</span>
+      </div>
+      <div class="flex flex-1 align-baseline text-xl">
+        <p class="mr-2">Visibility</p>
+        <span class="mr-1">{{ weatherData.current.vis_km }} km</span>
+      </div>
+      <div class="flex  flex-1 align-baseline text-xl">
+        <p class="mr-2">Wind Speed</p>
+        <span class="mr-1">{{ weatherData.current.wind_kph }} kph</span>
+      </div>
+    </div>
   </div>
 </div>

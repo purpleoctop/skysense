@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
-import { weatherDataResponse } from 'src/app/models/weatherDataResponse';
+import { Component, Input } from '@angular/core';
+import { weatherDataResponse } from '../../models/weatherDataResponse';
 
 @Component({
   selector: 'app-weather-card',
@@ -9,9 +9,10 @@ import { weatherDataResponse } from 'src/app/models/weatherDataResponse';
   standalone: true,
   imports: [NgIf],
 })
-export class WeatherCardComponent implements OnChanges {
+export class WeatherCardComponent {
   @Input() displayCelsius: boolean = true;
-  @Input() weatherData: weatherDataResponse = {
+  @Input() weatherData: weatherDataResponse
+   = {
     location: {
       name: 'London',
       region: 'City of London, Greater London',
@@ -52,7 +53,4 @@ export class WeatherCardComponent implements OnChanges {
       gust_kph: 13.7,
     },
   };
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(this.weatherData);
-  }
 }
