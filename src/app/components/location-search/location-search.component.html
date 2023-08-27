@@ -1,4 +1,4 @@
-<div class="w-1/2 m-auto">
+<div>
   <form [formGroup]="locationsForm" (submit)="onSubmit()" >
     <div class="relative">
       <div
@@ -24,7 +24,7 @@
       <input
         type="search"
         id="default-search"
-        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:outline-none dark:placeholder-gray-400"
+        class="block w-1/2 h-12 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:outline-none dark:placeholder-gray-400"
         placeholder="Search desired location here"
         formControlName="city"
         autocomplete="off"
@@ -34,7 +34,7 @@
 
   <div
     *ngIf="suggestions?.length"
-    class="max-h-80 mt-3.5 flex-col border border-gray-300 rounded-md overflow-auto"
+    class="max-h-80 w-1/2 mt-3.5 flex-col border border-gray-300 rounded-md overflow-auto relative z-1"
   >
     <div *ngFor="let city of suggestions">
       <p

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { take } from 'rxjs';
-import { LocationsService } from 'src/app/services/locations/locations.service';
+import { LocationsService } from '../../services/locations/locations.service';
 
 @Component({
   selector: 'app-location-search',
