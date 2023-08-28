@@ -50,7 +50,7 @@ export class LocationSearchComponent implements OnInit {
   }
 
   private searchInCities(searchKey: string, list: string[]): string[] {
-    if (list.length > 0)
+    if (list?.length > 0)
       return list.filter((item) =>
         item.toLocaleLowerCase().startsWith(searchKey.toLocaleLowerCase())
       );

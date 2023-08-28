@@ -7,9 +7,7 @@ describe('WeatherCardComponent', () => {
   let fixture: ComponentFixture<WeatherCardComponent>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [WeatherCardComponent]
-    });
+    TestBed.overrideComponent(WeatherCardComponent, {});
     fixture = TestBed.createComponent(WeatherCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

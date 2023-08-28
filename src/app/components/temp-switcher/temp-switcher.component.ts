@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { tempUnit } from '../../models/temperatureUnits';
 import { setTemperatureUnit } from '../../store/unit-store/unit.actions';
@@ -13,7 +13,7 @@ import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
 })
 export class TempSwitcherComponent {
   tempUnitControl!: FormControl;
-  constructor(private store: Store, private fb: FormBuilder) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
     this.tempUnitControl = new FormControl();
