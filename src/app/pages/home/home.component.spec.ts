@@ -83,8 +83,8 @@ describe('HomeComponent', () => {
     expect(storeMock.select).toHaveBeenCalled();
   });
 
-  it('should dispatch from store on getLocationData', () => {
-    component.getLocationData('tbilisi');
+  it('should dispatch from store on setLocationData', () => {
+    component.setLocationData('tbilisi');
     expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });
