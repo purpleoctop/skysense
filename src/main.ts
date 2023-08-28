@@ -9,6 +9,7 @@ import { CurrentWeatherEffect } from './app/store/current-weather-store/current.
 import { provideEffects } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { TempUnitReducer } from './app/store/unit-store/unit.reducer';
+import { FavoritesReducer } from './app/store/favorites/favorites.reducer';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -16,9 +17,8 @@ bootstrapApplication(AppComponent, {
     provideStore({
       currentWeather: CurrentWeatherReducer,
       tempUnit: TempUnitReducer,
+      favorites: FavoritesReducer,
     }),
     provideEffects([CurrentWeatherEffect]),
-    // provideRouterStore(),
-    // provideStoreDevtools(),
   ],
 }).catch((err) => console.error(err));
