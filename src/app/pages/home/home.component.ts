@@ -9,6 +9,7 @@ import { setCurrentWeatherData } from '../../store/current-weather-store/current
 import { GetCurrentWeather } from '../../store/current-weather-store/current.selector';
 import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
 import { NgIf } from '@angular/common';
+import { LocationsService } from '../../services/locations/locations.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,10 @@ export class HomeComponent implements OnInit {
   displayCelsius: boolean = true;
   currentWeather!: weatherDataResponse;
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private locationsService: LocationsService
+  ) {}
   ngOnInit() {
     this.store.select(GetCurrentWeather).subscribe((weather) => {
       if (!weather.currentWeather?.location) {
@@ -42,13 +46,24 @@ export class HomeComponent implements OnInit {
       );
   }
 
- private getCurrentlocation() {
+  private getCurrentlocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(console.log);
+      navigator.geolocation.getCurrentPosition((location) =>
+        this.getReverseGeocoding(
+          location.coords.latitude,
+          location.coords.longitude
+        )
+      );
     }
   }
 
-  getLocationData(city: string) {
+  setLocationData(city: string) {
     this.store.dispatch(setCurrentWeatherData({ payload: city }));
+  }
+
+  private getReverseGeocoding(lat: number, lng: number) {
+    this.locationsService
+      .getReverseGeocoding(lat, lng)
+      .subscribe((city: string) => this.setLocationData(city));
   }
 }

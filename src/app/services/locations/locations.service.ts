@@ -21,4 +21,18 @@ export class LocationsService {
       .get<locationsResponse>(url)
       .pipe(map((locations) => locations.data.map((loc) => loc.cities).flat()));
   }
+
+  getReverseGeocoding(lat: number, lng: number) {
+    const apiKey = 'AIzaSyB2Vbisk4wcNvNiPI8ZE5ak7rsqjjTX5DI';
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKey}`;
+    return this.http.get<any>(url).pipe(map((res) => this.getCityname(res)));
+  }
+
+  private getCityname(response: any): string {
+    return response.results
+      .filter((addresses: any) => addresses.types.includes('locality'))[0]
+      .address_components.filter((addr: any) =>
+        addr.types.includes('locality')
+      )[0].long_name;
+  }
 }
