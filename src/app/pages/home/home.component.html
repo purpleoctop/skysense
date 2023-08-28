@@ -5,12 +5,15 @@
       destination for up-to-date and accurate weather information.
     </p>
 
-    <div class="flex w-full justify-between items-center">
+    <div class="flex  w-full justify-between items-center">
+      <div class="flex flex-col flex-1">
+        <p *ngIf="error" class="text-red-500">{{ error }}</p>
+
       <app-location-search
-        class="flex-1"
+
         (locationConfirm)="setLocationData($event)"
       ></app-location-search>
-
+    </div>
       <div *ngIf="currentWeather?.location">
         <button
           *ngIf="
@@ -31,8 +34,11 @@
             class="p-4 flex-none"
             (click)="setFavorite(currentWeather.location.name)"
           >
-            <img src="/assets/icons/not-favorite.png" class="w-10 h-10"
-            alt="nonFavorite" />
+            <img
+              src="/assets/icons/not-favorite.png"
+              class="w-10 h-10"
+              alt="nonFavorite"
+            />
           </button>
         </ng-template>
       </div>
@@ -63,7 +69,11 @@
           <div
             class="p-4 mr-4 flex items-center bg-[#FFFFFF] border rounded text-gray-500 cursor-pointer"
           >
-            <img src="/assets/icons/favorite.png" class="w-4 h-4 mr-2" alt="favorite"/>
+            <img
+              src="/assets/icons/favorite.png"
+              class="w-4 h-4 mr-2"
+              alt="favorite"
+            />
 
             {{ location }}
           </div>

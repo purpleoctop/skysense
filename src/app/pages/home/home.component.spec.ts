@@ -9,12 +9,14 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 import { LocationsService } from 'src/app/services/locations/locations.service';
+import { WeatherService } from 'src/app/services/weather/weather.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let storeMock: jasmine.SpyObj<Store>;
   let locationsServiceMock: jasmine.SpyObj<LocationsService>;
+  let weatherServiceMock: jasmine.SpyObj<WeatherService>;
 
   const mockWeatherData = {
     current: {
@@ -55,7 +57,11 @@ describe('HomeComponent', () => {
     locationsServiceMock = jasmine.createSpyObj('locationsServiceMock', [
       'getReverseGeocoding',
     ]);
-    
+
+    weatherServiceMock = jasmine.createSpyObj('weatherServiceMock', [
+      'getWeatherDataByCity',
+    ]);
+
     TestBed.overrideComponent(HomeComponent, {
       remove: {
         imports: [
@@ -75,6 +81,7 @@ describe('HomeComponent', () => {
         providers: [
           { provide: Store, useValue: storeMock },
           { provide: LocationsService, useValue: locationsServiceMock },
+          { provide: WeatherService, useValue: weatherServiceMock },
         ],
       },
     });

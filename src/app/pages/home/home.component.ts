@@ -16,6 +16,7 @@ import {
   removeFavorites,
   setFavorites,
 } from '../../store/favorites/favorites.actions';
+import { WeatherService } from 'src/app/services/weather/weather.service';
 
 @Component({
   selector: 'app-home',
@@ -35,10 +36,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentWeather!: weatherDataResponse;
   favoriteLocations!: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  error!: string;
 
   constructor(
     private store: Store,
-    private locationsService: LocationsService
+    private locationsService: LocationsService,
+    private weatherService: WeatherService
   ) {}
   ngOnInit() {
     this.store
@@ -50,6 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         } else {
           this.currentWeather = weather.currentWeather;
         }
+        this.error = '';
       });
     this.store
       .select(getTemperatureUnit)
@@ -64,6 +68,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(
         (favorites) => (this.favoriteLocations = favorites?.favorites)
       );
+
+    this.getErrors();
   }
 
   setFavorite(city: string) {
@@ -74,13 +80,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(removeFavorites({ payload: city }));
   }
 
-
-
   setLocationData(city: string) {
     this.store.dispatch(setCurrentWeatherData({ payload: city }));
   }
 
-
+  getErrors() {
+    this.weatherService.errors?.subscribe((error: string) => {
+      this.error = error;
+    });
+  }
   private getCurrentlocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) =>
