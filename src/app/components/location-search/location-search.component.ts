@@ -42,11 +42,10 @@ export class LocationSearchComponent implements OnInit {
 
   onSubmit(city?: string): void {
     if (city) {
-      this.onLocationConfirm.emit(this.locationsForm.value.city);
       this.locationsForm.setValue({ city });
-    } else {
-      this.onLocationConfirm.emit(this.locationsForm.value.city);
     }
+    this.onLocationConfirm.emit(this.locationsForm.value.city);
+
     this.suggestions = [];
   }
 
