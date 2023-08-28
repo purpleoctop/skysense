@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  SecurityContext,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -14,6 +15,7 @@ import {
 } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { LocationsService } from '../../services/locations/locations.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-location-search',
@@ -26,7 +28,8 @@ import { LocationsService } from '../../services/locations/locations.service';
 export class LocationSearchComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
-    private locationsService: LocationsService
+    private locationsService: LocationsService,
+    private sanitizer: DomSanitizer
   ) {}
   locationsForm!: FormGroup;
   citiesList!: string[];
@@ -54,9 +57,14 @@ export class LocationSearchComponent implements OnInit, OnDestroy {
     if (city) {
       this.locationsForm.setValue({ city });
     }
-    this.locationConfirm.emit(this.locationsForm.value.city);
+    const sanitizedValue = this.sanitizeInput(this.locationsForm.value.city)??'';
+    this.locationConfirm.emit(sanitizedValue);
 
     this.suggestions = [];
+  }
+
+  sanitizeInput(inputValue: string) {
+    return this.sanitizer.sanitize(SecurityContext.HTML, inputValue);
   }
 
   private searchInCities(searchKey: string, list: string[]): string[] {
