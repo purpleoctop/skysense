@@ -52,6 +52,43 @@ export class HomeComponent implements OnInit, OnDestroy {
       );
   }
 
+  editSavedLocations() {
+    let locations: string[] = [];
+    const savedLocations = this.getSavedLocations();
+    if (savedLocations?.length) {
+      const isAlreadyfav = this.searchItemInFavorites();
+      if (isAlreadyfav) {
+        locations = savedLocations.filter(
+          (l: string) => l != this.currentWeather.location.name
+        );
+      } else {
+        locations = [...savedLocations, this.currentWeather.location.name];
+      }
+    } else {
+      locations = [this.currentWeather.location.name];
+    }
+    localStorage.setItem('favorites', JSON.stringify(locations));
+  }
+
+  getSavedLocations() {
+    let locationsArr = [];
+    const locationsFromStorage = localStorage.getItem('favorites');
+    if (!!locationsFromStorage) {
+      locationsArr = JSON.parse(locationsFromStorage);
+    }
+    return locationsArr;
+  }
+  setLocationData(city: string) {
+    this.store.dispatch(setCurrentWeatherData({ payload: city }));
+  }
+
+  searchItemInFavorites() {
+    const locations = this.getSavedLocations();
+    const found = locations?.filter(
+      (l: string) => this.currentWeather.location.name === l
+    ).length;
+    return found;
+  }
   private getCurrentlocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) =>
@@ -61,10 +98,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         )
       );
     }
-  }
-
-  setLocationData(city: string) {
-    this.store.dispatch(setCurrentWeatherData({ payload: city }));
   }
 
   private getReverseGeocoding(lat: number, lng: number) {

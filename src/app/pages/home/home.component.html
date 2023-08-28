@@ -7,12 +7,32 @@
 
     <div class="flex w-full justify-between items-center">
       <app-location-search
-      class="flex-1"
+        class="flex-1"
         (locationConfirm)="setLocationData($event)"
       ></app-location-search>
 
-      <app-temp-switcher  class="flex-none" *ngIf="currentWeather?.current"></app-temp-switcher>
+      <button
+        *ngIf="currentWeather?.current"
+        class="p-4 flex-none"
+        (click)="editSavedLocations()"
+      >
+        <img
+          [src]="
+            searchItemInFavorites()
+              ? '/assets/icons/favorite.png'
+              : '/assets/icons/not-favorite.png'
+          "
+          class="w-10 h-10"
+        />
+      </button>
+      <app-temp-switcher
+        class="flex-none"
+        *ngIf="currentWeather?.current"
+      ></app-temp-switcher>
     </div>
-    <app-weather-card [displayCelsius]="displayCelsius" [weatherData]="currentWeather"></app-weather-card>
+    <app-weather-card
+      [displayCelsius]="displayCelsius"
+      [weatherData]="currentWeather"
+    ></app-weather-card>
   </div>
 </div>
