@@ -8,9 +8,14 @@ import { weatherDataResponse } from '../../models/weatherDataResponse';
 import { setCurrentWeatherData } from '../../store/current-weather-store/current.actions';
 import { GetCurrentWeather } from '../../store/current-weather-store/current.selector';
 import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { LocationsService } from '../../services/locations/locations.service';
 import { Subject, takeUntil } from 'rxjs';
+import { getFavorites } from '../../store/favorites/favorites.selector';
+import {
+  removeFavorites,
+  setFavorites,
+} from '../../store/favorites/favorites.actions';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [
     NgIf,
+    NgFor,
     WeatherCardComponent,
     LocationSearchComponent,
     TempSwitcherComponent,
@@ -27,6 +33,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class HomeComponent implements OnInit, OnDestroy {
   displayCelsius = true;
   currentWeather!: weatherDataResponse;
+  favoriteLocations!: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -50,45 +57,30 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(
         (unit) => (this.displayCelsius = unit.tempUnit === tempUnit.C)
       );
+
+    this.store
+      .select(getFavorites)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (favorites) => (this.favoriteLocations = favorites?.favorites)
+      );
   }
 
-  editSavedLocations() {
-    let locations: string[] = [];
-    const savedLocations = this.getSavedLocations();
-    if (savedLocations?.length) {
-      const isAlreadyfav = this.searchItemInFavorites();
-      if (isAlreadyfav) {
-        locations = savedLocations.filter(
-          (l: string) => l != this.currentWeather.location.name
-        );
-      } else {
-        locations = [...savedLocations, this.currentWeather.location.name];
-      }
-    } else {
-      locations = [this.currentWeather.location.name];
-    }
-    localStorage.setItem('favorites', JSON.stringify(locations));
+  setFavorite(city: string) {
+    this.store.dispatch(setFavorites({ payload: city }));
   }
 
-  getSavedLocations() {
-    let locationsArr = [];
-    const locationsFromStorage = localStorage.getItem('favorites');
-    if (!!locationsFromStorage) {
-      locationsArr = JSON.parse(locationsFromStorage);
-    }
-    return locationsArr;
+  removeFavorite(city: string) {
+    this.store.dispatch(removeFavorites({ payload: city }));
   }
+
+
+
   setLocationData(city: string) {
     this.store.dispatch(setCurrentWeatherData({ payload: city }));
   }
 
-  searchItemInFavorites() {
-    const locations = this.getSavedLocations();
-    const found = locations?.filter(
-      (l: string) => this.currentWeather.location.name === l
-    ).length;
-    return found;
-  }
+
   private getCurrentlocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) =>

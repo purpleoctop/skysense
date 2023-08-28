@@ -11,20 +11,26 @@
         (locationConfirm)="setLocationData($event)"
       ></app-location-search>
 
-      <button
-        *ngIf="currentWeather?.current"
-        class="p-4 flex-none"
-        (click)="editSavedLocations()"
-      >
-        <img
-          [src]="
-            searchItemInFavorites()
-              ? '/assets/icons/favorite.png'
-              : '/assets/icons/not-favorite.png'
+      <div *ngIf="currentWeather?.location">
+        <button
+          *ngIf="
+            favoriteLocations?.includes(currentWeather?.location?.name ?? '');
+            else nonFavorite
           "
-          class="w-10 h-10"
-        />
-      </button>
+          class="p-4 flex-none"
+          (click)="removeFavorite(currentWeather.location.name)"
+        >
+          <img src="/assets/icons/favorite.png" class="w-10 h-10" />
+        </button>
+        <ng-template #nonFavorite>
+          <button
+            class="p-4 flex-none"
+            (click)="setFavorite(currentWeather.location.name)"
+          >
+            <img src="/assets/icons/not-favorite.png" class="w-10 h-10" />
+          </button>
+        </ng-template>
+      </div>
       <app-temp-switcher
         class="flex-none"
         *ngIf="currentWeather?.current"
@@ -34,5 +40,26 @@
       [displayCelsius]="displayCelsius"
       [weatherData]="currentWeather"
     ></app-weather-card>
+
+    <div
+      *ngIf="favoriteLocations?.length"
+      class="p-4 mt-10 bg-[#DBF3FA] border rounded-lg"
+    >
+      <div class="text-2xl text-bold p-4 mb-4 text-blue-500">
+        Access your favorite locations faster
+      </div>
+      <div class="flex flex-wrap gap-y-12">
+        <div
+          *ngFor="let location of favoriteLocations"
+          (click)="setLocationData(location)"
+        >
+          <div class="p-4 mr-4  flex items-center bg-[#FFFFFF] border rounded text-gray-500 cursor-pointer">
+            <img src="/assets/icons/favorite.png" class="w-4 h-4 mr-2" />
+
+            {{ location }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
