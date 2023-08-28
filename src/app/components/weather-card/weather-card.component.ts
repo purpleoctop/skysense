@@ -11,6 +11,6 @@ import { weatherDataResponse } from '../../models/weatherDataResponse';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WeatherCardComponent {
-  @Input() displayCelsius: boolean = true;
+  @Input() displayCelsius = true;
   @Input() weatherData!: weatherDataResponse;
 }

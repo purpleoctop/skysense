@@ -25,7 +25,7 @@ import { Subject, takeUntil } from 'rxjs';
   ],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  displayCelsius: boolean = true;
+  displayCelsius = true;
   currentWeather!: weatherDataResponse;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

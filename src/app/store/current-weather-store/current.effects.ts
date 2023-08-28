@@ -20,7 +20,7 @@ export class CurrentWeatherEffect {
       switchMap(({ payload }) =>
         this.weatherService.getWeatherDataByCity(payload).pipe(
           map((data) => setCurrentWeatherDataSuccess({ payload: data })),
-          catchError((error) => EMPTY)
+          catchError(() => EMPTY)
         )
       )
     )

@@ -12,7 +12,7 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let storeMock: jasmine.SpyObj<Store>;
-  let mockWeatherData = {
+  const mockWeatherData = {
     current: {
       last_updated_epoch: 1693070100,
       last_updated: '2023-08-26 18:15',

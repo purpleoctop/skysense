@@ -43,8 +43,8 @@ describe('LocationSearchComponent', () => {
     expect(locationsServiceMock.getAllCities).toHaveBeenCalled();
   });
 
-  it('should call onLocationConfirm.emit on submit with locationsForm value', () => {
-    const emitSpy = spyOn(component.onLocationConfirm, 'emit');
+  it('should call locationConfirm.emit on submit with locationsForm value', () => {
+    const emitSpy = spyOn(component.locationConfirm, 'emit');
     component.locationsForm.setValue({ city: "Tbilisi" });
     component.onSubmit();
 

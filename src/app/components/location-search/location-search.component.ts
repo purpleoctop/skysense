@@ -12,7 +12,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { LocationsService } from '../../services/locations/locations.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class LocationSearchComponent implements OnInit, OnDestroy {
   suggestions!: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Output() onLocationConfirm = new EventEmitter<string>();
+  @Output() locationConfirm = new EventEmitter<string>();
 
   ngOnInit(): void {
     this.locationsForm = this.fb.group({ city: [''] });
@@ -54,7 +54,7 @@ export class LocationSearchComponent implements OnInit, OnDestroy {
     if (city) {
       this.locationsForm.setValue({ city });
     }
-    this.onLocationConfirm.emit(this.locationsForm.value.city);
+    this.locationConfirm.emit(this.locationsForm.value.city);
 
     this.suggestions = [];
   }
