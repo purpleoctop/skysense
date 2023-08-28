@@ -20,14 +20,19 @@
           class="p-4 flex-none"
           (click)="removeFavorite(currentWeather.location.name)"
         >
-          <img src="/assets/icons/favorite.png" class="w-10 h-10" />
+          <img
+            src="/assets/icons/favorite.png"
+            class="w-10 h-10"
+            alt="favorite"
+          />
         </button>
         <ng-template #nonFavorite>
           <button
             class="p-4 flex-none"
             (click)="setFavorite(currentWeather.location.name)"
           >
-            <img src="/assets/icons/not-favorite.png" class="w-10 h-10" />
+            <img src="/assets/icons/not-favorite.png" class="w-10 h-10"
+            alt="nonFavorite" />
           </button>
         </ng-template>
       </div>
@@ -52,9 +57,13 @@
         <div
           *ngFor="let location of favoriteLocations"
           (click)="setLocationData(location)"
+          role="button"
+          tabindex="1"
         >
-          <div class="p-4 mr-4  flex items-center bg-[#FFFFFF] border rounded text-gray-500 cursor-pointer">
-            <img src="/assets/icons/favorite.png" class="w-4 h-4 mr-2" />
+          <div
+            class="p-4 mr-4 flex items-center bg-[#FFFFFF] border rounded text-gray-500 cursor-pointer"
+          >
+            <img src="/assets/icons/favorite.png" class="w-4 h-4 mr-2" alt="favorite"/>
 
             {{ location }}
           </div>
