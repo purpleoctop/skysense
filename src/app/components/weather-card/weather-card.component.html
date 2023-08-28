@@ -1,5 +1,5 @@
-<div *ngIf="weatherData.current">
-  <div class="my-10 w-full relative z-0">
+<div *ngIf="weatherData?.current">
+  <div class="my-10 w-full">
     <div class="flex w-full items-baseline">
         <span class="text-5xl mr-2 font-semibold">{{
           weatherData.location.name
