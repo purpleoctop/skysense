@@ -9,6 +9,7 @@ import { OpenaiService } from '../../services/openAi/openai.service';
 import { setCurrentWeatherData } from '../../store/current-weather-store/current.actions';
 import { GetCurrentWeather } from '../../store/current-weather-store/current.selector';
 import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
   styleUrls: ['./home.component.css'],
   standalone: true,
   imports: [
+    NgIf,
     WeatherCardComponent,
     LocationSearchComponent,
     TempSwitcherComponent,
