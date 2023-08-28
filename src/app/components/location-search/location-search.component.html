@@ -1,40 +1,42 @@
-<div>
+<div class='max-h-12'>
   <form [formGroup]="locationsForm" (submit)="onSubmit()">
-    <div class="inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-      <svg
-        class="w-4 h-4 text-gray-500 dark:text-gray-400"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 20 20"
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
       >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-        />
-      </svg>
+        <svg
+          class="w-4 h-4 text-gray-500 dark:text-gray-400"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 20 20"
+        >
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+          />
+        </svg>
+      </div>
+      <input
+        type="search"
+        id="default-search"
+        class="block w-1/2 h-12 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:outline-none dark:placeholder-gray-400"
+        placeholder="Search desired location here"
+        formControlName="city"
+        autocomplete="off"
+      />
     </div>
-
-    <input
-      type="search"
-      id="default-search"
-      class="block w-1/2 h-12 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:outline-none dark:placeholder-gray-400"
-      placeholder="Search desired location here"
-      formControlName="city"
-      autocomplete="off"
-    />
   </form>
-
   <div
     *ngIf="suggestions?.length"
-    class="max-h-80 w-1/2 mt-3.5 flex-col border border-gray-300 rounded-md overflow-auto relative z-1"
+    class="max-h-80 w-1/2 mt-3.5 flex-col border border-gray-300 rounded-md overflow-auto"
   >
-    <div *ngFor="let city of suggestions">
+    <div *ngFor="let city of suggestions" class="relative z-10">
       <p
-        class="p-3 cursor-pointer bg-white hover:bg-[#F5FCFF] hover:text-black text-[#7b7b7b]"
+        class="p-3 cursor-pointer bg-white hover:bg-[#F5FCFF] hover:text-black text-[#7b7b7b] "
         (click)="onSubmit(city)"
         role="button"
         tabindex="1"
