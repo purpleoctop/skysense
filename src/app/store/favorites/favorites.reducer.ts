@@ -3,7 +3,7 @@ import { removeFavorites, setFavorites } from './favorites.actions';
 import { AppState } from './favorites.selector';
 
 export const initialState: AppState = {
-  favorites: ['Tbilisi', 'Batumi', 'Wjnkds', 'sfnkn', 'knewjfbi', 'beqhb', 'iebur'],
+  favorites: [],
 };
 
 export const FavoritesReducer = createReducer(
