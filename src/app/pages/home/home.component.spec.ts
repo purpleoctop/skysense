@@ -7,11 +7,15 @@ import { TempSwitcherComponent } from '../../components/temp-switcher/temp-switc
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { LocationsService } from 'src/app/services/locations/locations.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let storeMock: jasmine.SpyObj<Store>;
+  let locationsServiceMock: jasmine.SpyObj<LocationsService>;
+
   const mockWeatherData = {
     current: {
       last_updated_epoch: 1693070100,
@@ -45,18 +49,20 @@ describe('HomeComponent', () => {
   };
 
   beforeEach(() => {
-    storeMock = jasmine.createSpyObj('locationsServiceMock', [
-      'select',
-      'dispatch',
-    ]);
+    storeMock = jasmine.createSpyObj('storeMock', ['select', 'dispatch']);
     storeMock.select.and.returnValue(of(mockWeatherData));
 
+    locationsServiceMock = jasmine.createSpyObj('locationsServiceMock', [
+      'getReverseGeocoding',
+    ]);
+    
     TestBed.overrideComponent(HomeComponent, {
       remove: {
         imports: [
           WeatherCardComponent,
           LocationSearchComponent,
           TempSwitcherComponent,
+          HttpClientModule,
         ],
       },
       add: {
@@ -64,8 +70,12 @@ describe('HomeComponent', () => {
           MockComponent(WeatherCardComponent),
           MockComponent(LocationSearchComponent),
           MockComponent(TempSwitcherComponent),
+          HttpClientModule,
         ],
-        providers: [{ provide: Store, useValue: storeMock }],
+        providers: [
+          { provide: Store, useValue: storeMock },
+          { provide: LocationsService, useValue: locationsServiceMock },
+        ],
       },
     });
 
