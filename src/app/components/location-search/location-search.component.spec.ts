@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LocationSearchComponent } from './location-search.component';
 import { MockModule } from 'ng-mocks';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LocationsService } from 'src/app/services/locations/locations.service';
+import { LocationsService } from '../../services/locations/locations.service';
 import { of } from 'rxjs';
 
 describe('LocationSearchComponent', () => {

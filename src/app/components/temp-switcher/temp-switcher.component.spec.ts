@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TempSwitcherComponent } from './temp-switcher.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { tempUnit } from 'src/app/models/temperatureUnits';
+import { tempUnit } from '../../models/temperatureUnits';
 
 describe('TempSwitcherComponent', () => {
   let component: TempSwitcherComponent;
