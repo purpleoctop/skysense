@@ -7,9 +7,8 @@ import { TempSwitcherComponent } from '../../components/temp-switcher/temp-switc
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { GetCurrentWeather } from 'src/app/store/current-weather-store/current.selector';
 
-fdescribe('HomeComponent', () => {
+describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let storeMock: jasmine.SpyObj<Store>;
