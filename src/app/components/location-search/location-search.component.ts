@@ -1,12 +1,18 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { take } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LocationsService } from '../../services/locations/locations.service';
 
 @Component({
@@ -17,7 +23,7 @@ import { LocationsService } from '../../services/locations/locations.service';
   imports: [ReactiveFormsModule, NgIf, NgFor, FormsModule],
   providers: [LocationsService],
 })
-export class LocationSearchComponent implements OnInit {
+export class LocationSearchComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private locationsService: LocationsService
@@ -25,18 +31,22 @@ export class LocationSearchComponent implements OnInit {
   locationsForm!: FormGroup;
   citiesList!: string[];
   suggestions!: string[];
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   @Output() onLocationConfirm = new EventEmitter<string>();
 
   ngOnInit(): void {
     this.locationsForm = this.fb.group({ city: [''] });
 
-    this.locationsForm.valueChanges.subscribe((value) => {
-      this.suggestions = this.findSuggestions(value.city);
-    });
+    this.locationsForm.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.suggestions = this.findSuggestions(value.city);
+      });
 
     this.locationsService
       .getAllCities()
-      .pipe(take(1))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((cities) => (this.citiesList = cities));
   }
 
@@ -64,5 +74,9 @@ export class LocationSearchComponent implements OnInit {
       return this.searchInCities(city, this.suggestions);
     }
     return [];
+  }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

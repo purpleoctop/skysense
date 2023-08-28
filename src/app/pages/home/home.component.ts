@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { LocationSearchComponent } from '../../components/location-search/location-search.component';
 import { TempSwitcherComponent } from '../../components/temp-switcher/temp-switcher.component';
@@ -10,6 +10,7 @@ import { GetCurrentWeather } from '../../store/current-weather-store/current.sel
 import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
 import { NgIf } from '@angular/common';
 import { LocationsService } from '../../services/locations/locations.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -23,24 +24,29 @@ import { LocationsService } from '../../services/locations/locations.service';
     TempSwitcherComponent,
   ],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   displayCelsius: boolean = true;
   currentWeather!: weatherDataResponse;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
     private locationsService: LocationsService
   ) {}
   ngOnInit() {
-    this.store.select(GetCurrentWeather).subscribe((weather) => {
-      if (!weather.currentWeather?.location) {
-        this.getCurrentlocation();
-      } else {
-        this.currentWeather = weather.currentWeather;
-      }
-    });
+    this.store
+      .select(GetCurrentWeather)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((weather) => {
+        if (!weather.currentWeather?.location) {
+          this.getCurrentlocation();
+        } else {
+          this.currentWeather = weather.currentWeather;
+        }
+      });
     this.store
       .select(getTemperatureUnit)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         (unit) => (this.displayCelsius = unit.tempUnit === tempUnit.C)
       );
@@ -64,6 +70,12 @@ export class HomeComponent implements OnInit {
   private getReverseGeocoding(lat: number, lng: number) {
     this.locationsService
       .getReverseGeocoding(lat, lng)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((city: string) => this.setLocationData(city));
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
