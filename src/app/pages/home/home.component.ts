@@ -5,7 +5,6 @@ import { TempSwitcherComponent } from '../../components/temp-switcher/temp-switc
 import { WeatherCardComponent } from '../../components/weather-card/weather-card.component';
 import { tempUnit } from '../../models/temperatureUnits';
 import { weatherDataResponse } from '../../models/weatherDataResponse';
-import { OpenaiService } from '../../services/openAi/openai.service';
 import { setCurrentWeatherData } from '../../store/current-weather-store/current.actions';
 import { GetCurrentWeather } from '../../store/current-weather-store/current.selector';
 import { getTemperatureUnit } from '../../store/unit-store/unit.selectors';
@@ -30,7 +29,7 @@ export class HomeComponent implements OnInit {
   constructor(private store: Store) {}
   ngOnInit() {
     this.store.select(GetCurrentWeather).subscribe((weather) => {
-      if (!weather.currentWeather.location) {
+      if (!weather.currentWeather?.location) {
         this.getCurrentlocation();
       } else {
         this.currentWeather = weather.currentWeather;
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
       );
   }
 
-  getCurrentlocation() {
+ private getCurrentlocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(console.log);
     }
